@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">SlideShowApp</string>
+    <string name="btn_show">スライドショー開始</string>
+
+    <!-- Tab Layout Text -->
+    <string name="tab1_content">コンテンツ選択</string>
+    <string name="tab2_slideshow">スライドショー設定</string>
+    <string name="tab3_animation">アニメーション設定</string>
+
+    <!-- Contents Setting List Text -->
+    <string-array name="list_items_contents">
+        <item>画像ディレクトリ</item>
+        <item>動画を再生</item>
+        <item>BGM</item>
+        <item>動画音声をミュート</item>
+    </string-array>
+
+    <!-- Slide Setting List Text -->
+    <string-array name="list_items_slide">
+        <item>1画像あたりの再生時間</item>
+        <item>拡大縮小設定</item>
+        <item>再生順</item>
+    </string-array>
+
+    <!-- Animation Setting List Text -->
+    <string-array name="list_items_anim">
+        <item>アニメーションなし</item>
+        <item>スライド（↑）</item>
+        <item>スライド（→）</item>
+        <item>スライド（↓）</item>
+        <item>スライド（←）</item>
+        <item>フェード</item>
+        <item>ランダム</item>
+    </string-array>
+</resources>
