@@ -25,16 +25,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         Fragment fragment;
         switch (aPosition) {
-            case 0:
-                fragment = new ContentsSettingFragment();
-                break;
             case 1:
                 fragment = new SlideSettingFragment();
                 break;
             case 2:
-//                fragment = new AnimSettingFragment();
-                fragment = new ContentsSettingFragment();
+                fragment = new AnimSettingFragment();
                 break;
+            case 0:
             default:
                 fragment = new ContentsSettingFragment();
                 break;
