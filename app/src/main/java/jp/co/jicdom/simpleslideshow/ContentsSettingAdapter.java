@@ -17,9 +17,11 @@ public class ContentsSettingAdapter extends BaseAdapter {
     public static final int ITEM_POS_3_MOVIE_MUTE = 3;
 
     private LayoutInflater mInflater;
+    private Context mContext;
 
     ContentsSettingAdapter(Context aContext) {
         super();
+        mContext = aContext;
 
         mInflater = (LayoutInflater) aContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -28,12 +30,7 @@ public class ContentsSettingAdapter extends BaseAdapter {
     public View getView(int aPosition, View aConvertView, ViewGroup aParent) {
         TextView textView;
         ImageView imageView;
-        String[] text_str = {
-                "list_item_1",
-                "list_item_2",
-                "list_item_3",
-                "list_item_4",
-        };
+        String[] text_str = mContext.getResources().getStringArray(R.array.list_items_contents);
 
         if (null == aConvertView) {
             switch (aPosition) {

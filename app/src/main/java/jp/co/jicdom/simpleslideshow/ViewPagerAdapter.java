@@ -11,6 +11,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private static final String TAG = "ViewPagerAdapter";
     private static final int PAGE_NUM = 3;
+    private Context mAppContext;
 
     ViewPagerAdapter(FragmentManager aFragmentManager) {
         super(aFragmentManager);
@@ -47,14 +48,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int aPosition) {
-        final CharSequence tab_title[] = {
-                "aaa",
-                "bbb",
-                "ccc"
-//                context.getString(R.string.tab1_content),
-//                context.getString(R.string.tab2_slideshow),
-//                context.getString(R.string.tab3_animation)
+        final CharSequence[] tab_title = {
+                mAppContext.getString(R.string.tab1_content),
+                mAppContext.getString(R.string.tab2_slideshow),
+                mAppContext.getString(R.string.tab3_animation)
         };
         return tab_title[aPosition];
+    }
+
+    void setContext(Context aContext) {
+        mAppContext = aContext;
     }
 }
