@@ -24,6 +24,7 @@ public class AnimSettingFragment extends Fragment {
      */
     @Override
     public void onCreate(Bundle aSavedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(aSavedInstanceState);
     }
 
@@ -37,7 +38,7 @@ public class AnimSettingFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater aInflater, ViewGroup aContainer, Bundle aSavedInstanceState) {
-        Log.d(TAG, "onCreateView()");
+        Log.d(TAG, "onCreateView");
         View view = aInflater.inflate(R.layout.fragment_settings, null);
         mListView = view.findViewById(R.id.list_view_settings);
 
@@ -52,6 +53,7 @@ public class AnimSettingFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View aView, Bundle aSavedInstanceState) {
+        Log.d(TAG, "onViewCreated");
         super.onViewCreated(aView, aSavedInstanceState);
 
         Context context = getContext();

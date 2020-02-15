@@ -1,6 +1,7 @@
 package jp.co.jicdom.simpleslideshow;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class SlideSettingAdapter extends BaseAdapter {
+
+    private static final String TAG = "SlideSettingAdapter";
+
     private static final int LIST_ITEM_COUNT = 3;
     private static final int ITEM_POS_0_SHOW_TIME = 0;
     private static final int ITEM_POS_1_SCALE = 1;
@@ -25,6 +29,7 @@ public class SlideSettingAdapter extends BaseAdapter {
 
     @Override
     public View getView(int aPosition, View aConvertView, ViewGroup aParent) {
+        Log.d(TAG, "getView");
         TextView textView;
         String[] text_str = mContext.getResources().getStringArray(R.array.list_items_slide);
 
@@ -47,16 +52,19 @@ public class SlideSettingAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int aPosition) {
+        Log.d(TAG, "getItem");
         return null;
     }
 
     @Override
     public long getItemId(int aPosition) {
+        Log.d(TAG, "getItemId");
         return aPosition;
     }
 
     @Override
     public int getCount() {
+        Log.d(TAG, "getCount");
         return LIST_ITEM_COUNT;
     }
 }

@@ -1,6 +1,7 @@
 package jp.co.jicdom.simpleslideshow;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ContentsSettingAdapter extends BaseAdapter {
+
+    private static final String TAG = "ContentsSettingAdapter";
 
     private static final int LIST_ITEM_COUNT = 4;
     public static final int ITEM_POS_0_IMAGE_DIR = 0;
@@ -28,6 +31,7 @@ public class ContentsSettingAdapter extends BaseAdapter {
 
     @Override
     public View getView(int aPosition, View aConvertView, ViewGroup aParent) {
+        Log.d(TAG, "getView");
         TextView textView;
         ImageView imageView;
         String[] text_str = mContext.getResources().getStringArray(R.array.list_items_contents);
@@ -67,16 +71,19 @@ public class ContentsSettingAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int aPosition) {
+        Log.d(TAG, "getItem");
         return null;
     }
 
     @Override
     public long getItemId(int aPosition) {
+        Log.d(TAG, "getItemId");
         return aPosition;
     }
 
     @Override
     public int getCount() {
+        Log.d(TAG, "getCount");
         return LIST_ITEM_COUNT;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SlideShowApp</string>
+    <string name="app_name">SimpleSlideShow</string>
     <string name="btn_show">スライドショー開始</string>
 
     <!-- Tab Layout Text -->
@@ -9,7 +9,7 @@
 
     <!-- Contents Setting List Text -->
     <string-array name="list_items_contents">
-        <item>画像ディレクトリ</item>
+        <item>再生する画像／動画</item>
         <item>動画を再生</item>
         <item>BGM</item>
         <item>動画音声をミュート</item>

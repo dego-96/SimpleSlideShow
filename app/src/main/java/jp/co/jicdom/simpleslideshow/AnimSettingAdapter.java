@@ -1,6 +1,7 @@
 package jp.co.jicdom.simpleslideshow;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimSettingAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;
 
+    private static final String TAG = "AnimSettingAdapter";
+
+    private LayoutInflater mInflater;
     private List<AnimSettingData> mSettingDataList;
 
     AnimSettingAdapter(Context aContext) {
@@ -36,6 +39,7 @@ public class AnimSettingAdapter extends BaseAdapter {
 
     @Override
     public View getView(int aPosition, View aConvertView, ViewGroup aParent) {
+        Log.d(TAG, "getView");
         ViewHolder viewHolder;
         final AnimSettingData data = (AnimSettingData) this.getItem(aPosition);
 
@@ -66,16 +70,19 @@ public class AnimSettingAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int aPosition) {
+        Log.d(TAG, "getItem");
         return mSettingDataList.get(aPosition);
     }
 
     @Override
     public long getItemId(int aPosition) {
+        Log.d(TAG, "getItemId");
         return aPosition;
     }
 
     @Override
     public int getCount() {
+        Log.d(TAG, "getCount");
         return mSettingDataList.size();
     }
 

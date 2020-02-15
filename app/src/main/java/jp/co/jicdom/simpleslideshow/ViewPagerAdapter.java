@@ -41,11 +41,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
+        Log.d(TAG, "getCount");
         return PAGE_NUM;
     }
 
     @Override
     public CharSequence getPageTitle(int aPosition) {
+        Log.d(TAG, "getPageTitle");
         final CharSequence[] tab_title = {
                 mAppContext.getString(R.string.tab1_content),
                 mAppContext.getString(R.string.tab2_slideshow),
@@ -55,6 +57,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     void setContext(Context aContext) {
+        Log.d(TAG, "setContext");
         mAppContext = aContext;
     }
 }

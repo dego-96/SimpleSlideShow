@@ -26,7 +26,7 @@ public class SlideSettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle aSavedInstanceState) {
         super.onCreate(aSavedInstanceState);
-        Log.d(TAG, "onCreate()");
+        Log.d(TAG, "onCreate");
     }
 
     /**
@@ -39,7 +39,7 @@ public class SlideSettingFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater aInflater, ViewGroup aContainer, Bundle aSavedInstanceState) {
-        Log.d(TAG, "onCreateView()");
+        Log.d(TAG, "onCreateView");
         View view = aInflater.inflate(R.layout.fragment_settings, null);
         mListView = view.findViewById(R.id.list_view_settings);
 
@@ -72,7 +72,7 @@ public class SlideSettingFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View aView, Bundle aSavedInstanceState) {
-        Log.d(TAG, "onViewCreated()");
+        Log.d(TAG, "onViewCreated");
         Context context = getContext();
         if (context != null) {
             SlideSettingAdapter adapter = new SlideSettingAdapter(context);

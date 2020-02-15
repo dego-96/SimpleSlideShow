@@ -17,6 +17,7 @@ public class ContentsSettingFragment extends Fragment {
     private static final String TAG = "ContentsSettingFragment";
 
     private ListView mListView;
+    private Context mContext;
 
     /**
      * onCreate
@@ -27,7 +28,7 @@ public class ContentsSettingFragment extends Fragment {
     public void onCreate(Bundle aSavedInstanceState) {
         super.onCreate(aSavedInstanceState);
 
-        Log.d(TAG, "onCreate()");
+        Log.d(TAG, "onCreate");
     }
 
     /**
@@ -40,7 +41,7 @@ public class ContentsSettingFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater aInflater, ViewGroup aContainer, Bundle aSavedInstanceState) {
-        Log.d(TAG, "onCreateView()");
+        Log.d(TAG, "onCreateView");
         View view = aInflater.inflate(R.layout.fragment_settings, null);
         mListView = view.findViewById(R.id.list_view_settings);
 
@@ -49,7 +50,7 @@ public class ContentsSettingFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 switch (position) {
                     case ContentsSettingAdapter.ITEM_POS_0_IMAGE_DIR:
-                        callGallery();
+                        ((MainActivity) mContext).callGallery();
                         break;
                     case ContentsSettingAdapter.ITEM_POS_1_PLAY_MOVIE:
                         break;
@@ -74,7 +75,7 @@ public class ContentsSettingFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View aView, Bundle aSavedInstanceState) {
-        Log.d(TAG, "onViewCreated()");
+        Log.d(TAG, "onViewCreated");
         Context context = getContext();
         if (context != null) {
             ContentsSettingAdapter adapter = new ContentsSettingAdapter(context);
@@ -82,32 +83,14 @@ public class ContentsSettingFragment extends Fragment {
         }
 
         super.onViewCreated(aView, aSavedInstanceState);
-
-
     }
 
-    private void callGallery() {
-//        if (mCanReadExternalStorage) {
-//            Intent intentGallery;
-//
-//            intentGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//            intentGallery.addCategory(Intent.CATEGORY_OPENABLE);
-//
-//            intentGallery.setType("video/*, images/*");
-//            startActivityForResult(intentGallery, REQUEST_GALLERY);
-//        } else {
-//            /* 外部ストレージへのRead権限が無い場合は権限をリクエスト */
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-//                    ContextCompat.checkSelfPermission(
-//                            this,
-//                            Manifest.permission.READ_EXTERNAL_STORAGE
-//                    ) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(
-//                        this,
-//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                        REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
-//                );
-//            }
-//        }
+    @Override
+    public void onAttach(@NonNull Context aContext) {
+        Log.d(TAG, "onAttach");
+        super.onAttach(aContext);
+        if (aContext instanceof MainActivity) {
+            mContext = aContext;
+        }
     }
 }
