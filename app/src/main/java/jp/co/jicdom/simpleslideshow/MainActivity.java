@@ -8,29 +8,34 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
 
     /* Request Code */
     private static final int REQUEST_GALLERY = 0;
     private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 1;
 
     private ViewPagerAdapter mPagerAdapter;
-    private List<Uri> mImageUriList;
+    private ArrayList<Uri> mImageUriList;
 
     /**
      * onCreate
@@ -76,23 +81,23 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_GALLERY:
                 if (aResultCode == RESULT_OK) {
                     Uri uri;
+                    String text;
                     if (aData.getData() != null) {
-                        uri = aData.getData();
-                        mImageUriList.add(uri);
-                        Log.d(TAG, "URI : " + uri.getPath());
-                        setDescriptionText(uri.getPath(), ContentsSettingAdapter.TEXTVIEW_ID_CONTENT);
+                        mImageUriList.add(aData.getData());
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         ClipData clipData = aData.getClipData();
-                        String text = "";
                         for (int index = 0; clipData != null && index < clipData.getItemCount(); index++) {
-                            if (index == 0) {
-                                text = clipData.getItemAt(index).getUri().getPath();
-                                text = text + " + 他" + (clipData.getItemCount() - 1) + "件";
-                            }
                             ClipData.Item item = clipData.getItemAt(index);
-                            uri = item.getUri();
-                            Log.d(TAG, "URI : " + uri.getPath());
+                            mImageUriList.add(item.getUri());
                         }
+                    }
+                    if (mImageUriList.size() > 0) {
+                        uri = mImageUriList.get(0);
+                        text = getPictPath(uri);
+                        if (mImageUriList.size() > 1) {
+                            text = text + " + 他" + (mImageUriList.size() - 1) + "件";
+                        }
+                        Log.d(TAG, "file path : " + text);
                         setDescriptionText(text, ContentsSettingAdapter.TEXTVIEW_ID_CONTENT);
                     }
                 }
@@ -113,7 +118,14 @@ public class MainActivity extends AppCompatActivity {
      * @param aView view
      */
     public void onSlideShowButtonClicked(View aView) {
-
+        if (mImageUriList != null && mImageUriList.size() > 0) {
+            Intent intent = new Intent(getApplication(), SlideShowActivity.class);
+            intent.putParcelableArrayListExtra("image_uri", mImageUriList);
+            startActivity(intent);
+        } else {
+            String toast_text = getString(R.string.toast_no_image);
+            Toast.makeText(this, toast_text, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -147,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
      * intentGalleryApp
      */
     private void intentGalleryApp() {
+        mImageUriList.clear();
         Intent intentGallery;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intentGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -165,6 +178,48 @@ public class MainActivity extends AppCompatActivity {
             intentGallery.setType("image/*,video/*");
         }
         startActivityForResult(intentGallery, REQUEST_GALLERY);
+    }
+
+    /**
+     * getPictPath
+     *
+     * @param aUri uri
+     * @return image/video path
+     */
+    private String getPictPath(Uri aUri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String id = DocumentsContract.getDocumentId(aUri);
+            String selection = "_id=?";
+            String[] selectionArgs = new String[]{id.split(":")[1]};
+            File file = null;
+
+            Cursor cursor = getContentResolver().query(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    new String[]{MediaStore.MediaColumns.DATA},
+                    selection,
+                    selectionArgs,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                file = new File(cursor.getString(0));
+                cursor.close();
+            }
+
+            if (file != null) {
+                return file.getAbsolutePath();
+            }
+        } else {
+            ContentResolver contentResolver = getContentResolver();
+            String[] columns = {MediaStore.Images.Media.DATA};
+            Cursor cursor = contentResolver.query(aUri, columns, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                String filePath = cursor.getString(0);
+                cursor.close();
+                return filePath;
+            }
+        }
+        return null;
     }
 
     private void setDescriptionText(String aText, int aTextViewID) {

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SimpleSlideShow</string>
     <string name="btn_show">スライドショー開始</string>
+    <string name="toast_no_image">画像／動画が選択されていません。
+    再生する画像または動画を選択してください。</string>
 
     <!-- Tab Layout Text -->
     <string name="tab1_content">コンテンツ選択</string>
