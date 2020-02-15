@@ -14,37 +14,67 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     private static final int PAGE_NUM = 3;
     private Context mAppContext;
 
+    private Fragment[] mFragments;
+
+    /**
+     * ViewPagerAdapter
+     *
+     * @param aFragmentManager fragment manager
+     */
     ViewPagerAdapter(FragmentManager aFragmentManager) {
         super(aFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mFragments = new Fragment[PAGE_NUM];
     }
 
+    /**
+     * getItem
+     *
+     * @param aPosition position
+     * @return fragment
+     */
     @NonNull
     @Override
     public Fragment getItem(int aPosition) {
         Log.d(TAG, "getItem(" + aPosition + ")");
 
-        Fragment fragment;
-        switch (aPosition) {
-            case 1:
-                fragment = new SlideSettingFragment();
-                break;
-            case 2:
-                fragment = new AnimSettingFragment();
-                break;
-            case 0:
-            default:
-                fragment = new ContentsSettingFragment();
-                break;
+        if (aPosition < PAGE_NUM) {
+            if (mFragments[aPosition] == null) {
+                switch (aPosition) {
+                    case 1:
+                        mFragments[1] = new SlideSettingFragment();
+                        break;
+                    case 2:
+                        mFragments[2] = new AnimSettingFragment();
+                        break;
+                    case 0:
+                    default:
+                        mFragments[0] = new ContentsSettingFragment();
+                        break;
+                }
+            }
+            return mFragments[aPosition];
+        } else {
+            return mFragments[0];
         }
-        return fragment;
     }
 
+    /**
+     * getCount
+     *
+     * @return page count
+     */
     @Override
     public int getCount() {
         Log.d(TAG, "getCount");
         return PAGE_NUM;
     }
 
+    /**
+     * getPageTitle
+     *
+     * @param aPosition position
+     * @return page title
+     */
     @Override
     public CharSequence getPageTitle(int aPosition) {
         Log.d(TAG, "getPageTitle");
@@ -56,8 +86,20 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return tab_title[aPosition];
     }
 
+    /**
+     * setContext
+     *
+     * @param aContext context
+     */
     void setContext(Context aContext) {
         Log.d(TAG, "setContext");
         mAppContext = aContext;
+    }
+
+    /**
+     * getFragment
+     */
+    Fragment getFragment(int aPosition) {
+        return mFragments[aPosition];
     }
 }

@@ -3,6 +3,7 @@ package jp.co.jicdom.simpleslideshow;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -23,11 +24,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+
+    /* Request Code */
     private static final int REQUEST_GALLERY = 0;
     private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 1;
 
+    private ViewPagerAdapter mPagerAdapter;
     private List<Uri> mImageUriList;
 
+    /**
+     * onCreate
+     *
+     * @param savedInstanceState saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
@@ -38,14 +47,21 @@ public class MainActivity extends AppCompatActivity {
         mImageUriList = new ArrayList<>();
 
         ViewPager viewPager = findViewById(R.id.view_pager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.setContext(getApplicationContext());
-        viewPager.setAdapter(viewPagerAdapter);
+        mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter.setContext(getApplicationContext());
+        viewPager.setAdapter(mPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    /**
+     * onActivityResult
+     *
+     * @param aRequestCode request code
+     * @param aResultCode  result code
+     * @param aData        data
+     */
     @Override
     protected void onActivityResult(int aRequestCode, int aResultCode, Intent aData) {
         super.onActivityResult(aRequestCode, aResultCode, aData);
@@ -64,13 +80,20 @@ public class MainActivity extends AppCompatActivity {
                         uri = aData.getData();
                         mImageUriList.add(uri);
                         Log.d(TAG, "URI : " + uri.getPath());
+                        setDescriptionText(uri.getPath(), ContentsSettingAdapter.TEXTVIEW_ID_CONTENT);
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         ClipData clipData = aData.getClipData();
+                        String text = "";
                         for (int index = 0; clipData != null && index < clipData.getItemCount(); index++) {
+                            if (index == 0) {
+                                text = clipData.getItemAt(index).getUri().getPath();
+                                text = text + " + 他" + (clipData.getItemCount() - 1) + "件";
+                            }
                             ClipData.Item item = clipData.getItemAt(index);
                             uri = item.getUri();
                             Log.d(TAG, "URI : " + uri.getPath());
                         }
+                        setDescriptionText(text, ContentsSettingAdapter.TEXTVIEW_ID_CONTENT);
                     }
                 }
                 break;
@@ -84,11 +107,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * onSlideShowButtonClicked
+     *
+     * @param aView view
+     */
     public void onSlideShowButtonClicked(View aView) {
 
     }
 
+    /**
+     * callGallery
+     */
     public void callGallery() {
         Log.d(TAG, "callGallery");
         int permission;
@@ -113,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * intentGalleryApp
+     */
     private void intentGalleryApp() {
         Intent intentGallery;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -132,5 +165,12 @@ public class MainActivity extends AppCompatActivity {
             intentGallery.setType("image/*,video/*");
         }
         startActivityForResult(intentGallery, REQUEST_GALLERY);
+    }
+
+    private void setDescriptionText(String aText, int aTextViewID) {
+        Fragment fragment = mPagerAdapter.getFragment(0);
+        if (fragment instanceof ContentsSettingFragment) {
+            ((ContentsSettingFragment) fragment).setDescriptionText(aText, aTextViewID);
+        }
     }
 }

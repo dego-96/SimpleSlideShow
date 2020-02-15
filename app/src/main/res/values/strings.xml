@@ -14,6 +14,7 @@
         <item>BGM</item>
         <item>動画音声をミュート</item>
     </string-array>
+    <string name="list_item_init_description">未選択</string>
 
     <!-- Slide Setting List Text -->
     <string-array name="list_items_slide">

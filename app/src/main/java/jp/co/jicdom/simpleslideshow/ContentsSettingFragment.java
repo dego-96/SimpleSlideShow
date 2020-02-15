@@ -17,6 +17,7 @@ public class ContentsSettingFragment extends Fragment {
     private static final String TAG = "ContentsSettingFragment";
 
     private ListView mListView;
+    private ContentsSettingAdapter mAdapter;
     private Context mContext;
 
     /**
@@ -78,8 +79,8 @@ public class ContentsSettingFragment extends Fragment {
         Log.d(TAG, "onViewCreated");
         Context context = getContext();
         if (context != null) {
-            ContentsSettingAdapter adapter = new ContentsSettingAdapter(context);
-            mListView.setAdapter(adapter);
+            mAdapter = new ContentsSettingAdapter(context);
+            mListView.setAdapter(mAdapter);
         }
 
         super.onViewCreated(aView, aSavedInstanceState);
@@ -92,5 +93,9 @@ public class ContentsSettingFragment extends Fragment {
         if (aContext instanceof MainActivity) {
             mContext = aContext;
         }
+    }
+
+    void setDescriptionText(String aText, int aTextViewID) {
+        mAdapter.setDescriptionText(aText, aTextViewID);
     }
 }
